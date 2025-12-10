@@ -3,12 +3,30 @@ The extension uses a view hook to add structured data (JSON-LD) to the page head
 
 Please note, that structured data rendering is currently experimental and only supported for the following:
 
+- Pages
 - Article detail pages
 - Person detail pages
 
 ---
 
 The following sections describe the data that is rendered for the specific content.
+
+## Page (CMChannel) 
+Markup added on non-detail pages:
+
+Example:
+```html
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "ChefCorp Home",
+  "url": "/blueprint/servlet/corporate",
+  "description": "Chef Corp. is an excellent portal page for professionals that enables chefs with the best tools to prepare perfect meals."
+}
+</script>
+```
 
 ## Article (CMArticle)
 
@@ -17,7 +35,7 @@ Markup added on article detail pages:
 Example:
 ```html
 <script type="application/ld+json">
-  {
+{
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Fun is your Driver",
@@ -46,11 +64,11 @@ Markup added on person detail pages:
 Example:
 ```html
 <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Charlotte May",
-    "url": "/blueprint/servlet/corporate/details/charlotte-may-3248"
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Charlotte May",
+  "url": "/blueprint/servlet/corporate/details/charlotte-may-3248"
+}
 </script>
 ```

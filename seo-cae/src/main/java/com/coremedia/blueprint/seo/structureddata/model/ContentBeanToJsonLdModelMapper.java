@@ -4,6 +4,7 @@ import com.coremedia.blueprint.base.settings.SettingsService;
 import com.coremedia.blueprint.cae.web.WebEnvironment;
 import com.coremedia.blueprint.cae.web.taglib.BlueprintFreemarkerFacade;
 import com.coremedia.blueprint.common.contentbeans.CMArticle;
+import com.coremedia.blueprint.common.contentbeans.CMChannel;
 import com.coremedia.blueprint.common.contentbeans.CMPerson;
 import com.coremedia.blueprint.common.contentbeans.CMPicture;
 import com.coremedia.blueprint.common.contentbeans.Page;
@@ -70,6 +71,8 @@ public class ContentBeanToJsonLdModelMapper {
       if (content.isPresent() && contentType != null) {
         if (contentType.isSubtypeOf("CMArticle")) {
           model = createArticleJsonLdModel(contentBeanFactory.createBeanFor(content.get(), CMArticle.class), containingPage);
+        } else if (contentType.isSubtypeOf("CMChannel")) {
+          model = createWebPageJsonLdMode(contentBeanFactory.createBeanFor(content.get(), CMChannel.class), containingPage);
         } else if (contentType.isSubtypeOf("CMPerson")) {
           model = createPersonJsonLdModel(contentBeanFactory.createBeanFor(content.get(), CMPerson.class), containingPage);
         }
@@ -102,6 +105,19 @@ public class ContentBeanToJsonLdModelMapper {
     return m;
   }
 
+  protected WebPageJsonLdModel createWebPageJsonLdMode(@Nullable CMChannel channel, @NonNull Page containingPage) {
+    if (channel == null) {
+      return null;
+    }
+
+    WebPageJsonLdModel m = new WebPageJsonLdModel();
+    m.setName(channel.getHtmlTitle());
+    m.setUrl(linkFormatter.formatLink(channel, null, WebEnvironment.getCurrentRequest(), WebEnvironment.getCurrentResponse(), true));
+    m.setDescription(channel.getHtmlDescription());
+
+    return m;
+  }
+
   protected PersonJsonLdModel createPersonJsonLdModel(@Nullable CMPerson person, @NonNull Page containingPage) {
     if (person == null) {
       return null;
@@ -109,7 +125,7 @@ public class ContentBeanToJsonLdModelMapper {
 
     PersonJsonLdModel m = new PersonJsonLdModel();
     m.setName(person.getDisplayName());
-    m.setUrl(linkFormatter.formatLink(person, null, WebEnvironment.getCurrentRequest(), WebEnvironment.getCurrentResponse(), false));
+    m.setUrl(linkFormatter.formatLink(person, null, WebEnvironment.getCurrentRequest(), WebEnvironment.getCurrentResponse(), true));
     return m;
   }
 
