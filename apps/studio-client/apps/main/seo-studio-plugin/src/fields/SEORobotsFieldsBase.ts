@@ -1,6 +1,6 @@
 import ContentPropertyNames from "@coremedia/studio-client.cap-rest-client/content/ContentPropertyNames";
 import Struct from "@coremedia/studio-client.cap-rest-client/struct/Struct";
-import SubBean from "@coremedia/studio-client.client-core-impl/data/impl/SubBean";
+import SubBean from "@coremedia/studio-client.client-core/data/impl/SubBean";
 import Bean from "@coremedia/studio-client.client-core/data/Bean";
 import PropertyChangeEvent from "@coremedia/studio-client.client-core/data/PropertyChangeEvent";
 import ValueExpression from "@coremedia/studio-client.client-core/data/ValueExpression";
