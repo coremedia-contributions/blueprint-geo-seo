@@ -9,16 +9,11 @@ import com.coremedia.blueprint.seo.structureddata.model.ContentBeanToJsonLdModel
 import com.coremedia.objectserver.beans.ContentBeanFactory;
 import com.coremedia.objectserver.web.links.LinkFormatter;
 import com.coremedia.springframework.customizer.Customize;
-import com.coremedia.springframework.xml.ResourceAwareXmlBeanDefinitionReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ImportResource;
 
 @AutoConfiguration
-@ImportResource(value = {
-  "classpath:/framework/spring/blueprint-freemarker-views.xml"
-}, reader = ResourceAwareXmlBeanDefinitionReader.class)
 public class SEOCaeAutoConfiguration {
 
   @Bean
