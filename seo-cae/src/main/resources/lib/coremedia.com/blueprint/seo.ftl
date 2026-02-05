@@ -10,5 +10,3 @@
 <#function robotsOptions page>
   <#return seoFreemarkerFacade.getRobotsOptions(page)>
 </#function>
-
-

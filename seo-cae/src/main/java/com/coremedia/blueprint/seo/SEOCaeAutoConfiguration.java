@@ -2,6 +2,7 @@ package com.coremedia.blueprint.seo;
 
 import com.coremedia.blueprint.base.settings.SettingsService;
 import com.coremedia.blueprint.cae.web.taglib.BlueprintFreemarkerFacade;
+import com.coremedia.blueprint.seo.cae.tags.SEOFreemarkerFacade;
 import com.coremedia.blueprint.seo.structureddata.JsonLdSerializer;
 import com.coremedia.blueprint.seo.structureddata.StructuredDataPageHeadViewHookEventListener;
 import com.coremedia.blueprint.seo.structureddata.StructuredDataSerializer;
@@ -11,9 +12,13 @@ import com.coremedia.objectserver.web.links.LinkFormatter;
 import com.coremedia.springframework.customizer.Customize;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.freemarker.autoconfigure.FreeMarkerAutoConfiguration;
+import org.springframework.boot.freemarker.autoconfigure.FreeMarkerVariablesCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
-@AutoConfiguration
+@AutoConfiguration(before = FreeMarkerAutoConfiguration.class)
+@PropertySource("classpath:META-INF/coremedia/seo.properties")
 public class SEOCaeAutoConfiguration {
 
   @Bean
@@ -27,6 +32,16 @@ public class SEOCaeAutoConfiguration {
   @Bean(autowireCandidate = false)
   public String addSEOViewRepositoryName() {
     return "seo";
+  }
+
+  @Bean
+  SEOFreemarkerFacade seoFreemarkerFacade(SettingsService settingsService) {
+    return new SEOFreemarkerFacade(settingsService);
+  }
+
+  @Bean
+  FreeMarkerVariablesCustomizer seoFreemarkerSharedVariablesCustomizer(SEOFreemarkerFacade seoFreemarkerFacade) {
+    return variables -> variables.put("seoFreemarkerFacade", seoFreemarkerFacade);
   }
 
   @Bean

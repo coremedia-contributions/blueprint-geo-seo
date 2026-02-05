@@ -6,7 +6,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +19,9 @@ public class SEOFreemarkerFacade {
   private static final String DEFAULT_ROBOTS_TAG = "<meta name=\"robots\" content=\"index, follow\" />";
   private static final String ROBOTS_TAG_TPL = "<meta name=\"robots\" content=\"%s\" />";
 
-  private SettingsService settingsService;
+  private final SettingsService settingsService;
 
-  @Autowired
-  public void setSettingsService(SettingsService settingsService) {
+  public SEOFreemarkerFacade(SettingsService settingsService) {
     this.settingsService = settingsService;
   }
 

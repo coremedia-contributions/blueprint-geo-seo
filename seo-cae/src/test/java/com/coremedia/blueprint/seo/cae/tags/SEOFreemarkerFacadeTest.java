@@ -29,8 +29,7 @@ public class SEOFreemarkerFacadeTest {
 
   @Before
   public void setUp() {
-    testling = new SEOFreemarkerFacade();
-    testling.setSettingsService(settingsService);
+    testling = new SEOFreemarkerFacade(settingsService);
   }
 
   @Test
