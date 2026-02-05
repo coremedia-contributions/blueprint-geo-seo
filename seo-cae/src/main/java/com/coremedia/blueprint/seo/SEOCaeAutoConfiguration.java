@@ -15,10 +15,9 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.freemarker.autoconfigure.FreeMarkerAutoConfiguration;
 import org.springframework.boot.freemarker.autoconfigure.FreeMarkerVariablesCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
+import freemarker.template.Configuration;
 
-@AutoConfiguration(before = FreeMarkerAutoConfiguration.class)
-@PropertySource("classpath:META-INF/coremedia/seo.properties")
+@AutoConfiguration(after = FreeMarkerAutoConfiguration.class)
 public class SEOCaeAutoConfiguration {
 
   @Bean
@@ -42,6 +41,17 @@ public class SEOCaeAutoConfiguration {
   @Bean
   FreeMarkerVariablesCustomizer seoFreemarkerSharedVariablesCustomizer(SEOFreemarkerFacade seoFreemarkerFacade) {
     return variables -> variables.put("seoFreemarkerFacade", seoFreemarkerFacade);
+  }
+
+  /**
+   * Add an auto-import for the SEO namespace in Freemarker templates.
+   * @param configuration Freemarker configuration
+   * @return
+   */
+  @Bean
+  public Object seoFreemarkerAutoImport(Configuration configuration) {
+    configuration.addAutoImport("seo", "/lib/coremedia.com/blueprint/seo.ftl");
+    return new Object(); // side-effect bean
   }
 
   @Bean
