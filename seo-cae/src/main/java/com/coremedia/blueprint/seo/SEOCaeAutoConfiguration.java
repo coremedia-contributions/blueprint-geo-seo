@@ -11,13 +11,17 @@ import com.coremedia.objectserver.beans.ContentBeanFactory;
 import com.coremedia.objectserver.web.links.LinkFormatter;
 import com.coremedia.springframework.customizer.Customize;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.freemarker.autoconfigure.FreeMarkerAutoConfiguration;
 import org.springframework.boot.freemarker.autoconfigure.FreeMarkerVariablesCustomizer;
+import org.springframework.boot.jackson2.autoconfigure.Jackson2AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import freemarker.template.Configuration;
 
-@AutoConfiguration(after = FreeMarkerAutoConfiguration.class)
+@AutoConfiguration(after = {FreeMarkerAutoConfiguration.class, Jackson2AutoConfiguration.class})
+@Import(Jackson2AutoConfiguration.class)
 public class SEOCaeAutoConfiguration {
 
   @Bean
@@ -64,7 +68,7 @@ public class SEOCaeAutoConfiguration {
   }
 
   @Bean
-  public StructuredDataSerializer seoStructuredDataSerializer(ObjectMapper mapper) {
+  public StructuredDataSerializer seoStructuredDataSerializer(@NonNull ObjectMapper mapper) {
     return new JsonLdSerializer(mapper);
   }
 
