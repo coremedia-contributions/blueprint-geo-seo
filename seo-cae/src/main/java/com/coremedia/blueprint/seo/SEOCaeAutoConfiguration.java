@@ -26,9 +26,10 @@ public class SEOCaeAutoConfiguration {
 
   @Bean
   public StructuredDataPageHeadViewHookEventListener seoStructuredDataPageHeadViewHookEventListener(
-    StructuredDataSerializer seoStructuredDataSerializer,
-    ContentBeanToJsonLdModelMapper seoContentBeanToJsonLdModelMapper) {
-    return new StructuredDataPageHeadViewHookEventListener(seoStructuredDataSerializer, seoContentBeanToJsonLdModelMapper);
+          SettingsService settingsService,
+          StructuredDataSerializer seoStructuredDataSerializer,
+          ContentBeanToJsonLdModelMapper seoContentBeanToJsonLdModelMapper) {
+    return new StructuredDataPageHeadViewHookEventListener(settingsService, seoStructuredDataSerializer, seoContentBeanToJsonLdModelMapper);
   }
 
   @Customize(value = "viewRepositories", mode = Customize.Mode.PREPEND)
@@ -60,10 +61,10 @@ public class SEOCaeAutoConfiguration {
 
   @Bean
   public ContentBeanToJsonLdModelMapper seoContentBeanToJsonLdModelMapper(
-    ContentBeanFactory contentBeanFactory,
-    SettingsService settingsService,
-    LinkFormatter linkFormatter,
-    BlueprintFreemarkerFacade blueprintFreemarkerFacade) {
+          ContentBeanFactory contentBeanFactory,
+          SettingsService settingsService,
+          LinkFormatter linkFormatter,
+          BlueprintFreemarkerFacade blueprintFreemarkerFacade) {
     return new ContentBeanToJsonLdModelMapper(contentBeanFactory, settingsService, linkFormatter, blueprintFreemarkerFacade);
   }
 

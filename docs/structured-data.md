@@ -7,11 +7,22 @@ Please note, that structured data rendering is currently experimental and only s
 - Article detail pages
 - Person detail pages
 
+**Required Settings**
+
+To enable/disable structured data rendering, add the following setting to your root page (either via `localSettings` or a linked Settings content). If not set, the default value is `false` (structured data rendering disabled).
+
+```
+- seo (Struct)
+  + renderStructuredDataPageHead (Boolean): true|false
+```
+
 ---
+
+## Rendered Data
 
 The following sections describe the data that is rendered for the specific content.
 
-## Page (CMChannel) 
+### Page (CMChannel) 
 Markup added on non-detail pages:
 
 Example:
@@ -28,7 +39,7 @@ Example:
 </script>
 ```
 
-## Article (CMArticle)
+### Article (CMArticle)
 
 Markup added on article detail pages:
 
@@ -58,7 +69,7 @@ Example:
 </script>
 ```
 
-## Person (CMPerson)
+### Person (CMPerson)
 Markup added on person detail pages:
 
 Example:

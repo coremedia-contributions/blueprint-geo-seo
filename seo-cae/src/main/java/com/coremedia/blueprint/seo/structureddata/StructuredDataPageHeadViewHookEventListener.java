@@ -1,5 +1,6 @@
 package com.coremedia.blueprint.seo.structureddata;
 
+import com.coremedia.blueprint.base.settings.SettingsService;
 import com.coremedia.blueprint.common.contentbeans.Page;
 import com.coremedia.blueprint.seo.structureddata.model.ContentBeanToJsonLdModelMapper;
 import com.coremedia.objectserver.beans.ContentBean;
@@ -19,26 +20,22 @@ public class StructuredDataPageHeadViewHookEventListener implements ViewHookEven
 
   private final StructuredDataSerializer serializer;
   private final ContentBeanToJsonLdModelMapper contentBeanToJsonLdModelMapper;
+  private final SettingsService settingsService;
 
-  public StructuredDataPageHeadViewHookEventListener(@NonNull StructuredDataSerializer serializer, @NonNull ContentBeanToJsonLdModelMapper contentBeanToJsonLdModelMapper) {
+  public StructuredDataPageHeadViewHookEventListener(@NonNull SettingsService settingsService,
+                                                     @NonNull StructuredDataSerializer serializer,
+                                                     @NonNull ContentBeanToJsonLdModelMapper contentBeanToJsonLdModelMapper) {
     this.serializer = serializer;
     this.contentBeanToJsonLdModelMapper = contentBeanToJsonLdModelMapper;
+    this.settingsService = settingsService;
   }
 
   @Override
   public RenderNode onViewHook(ViewHookEvent<Page> event) {
     if (VIEW_HOOK_HEAD.equals(event.getId())) {
-      Page page = event.getBean();
-
-      Optional<Object> model = Optional.of(page)
-        .map(Page::getContent)
-        .filter(ContentBean.class::isInstance)
-        .map(ContentBean.class::cast)
-        .map((bean) -> contentBeanToJsonLdModelMapper.map(bean, page));
-
-      if (model.isPresent()) {
-          String data = serializer.serialize(model.get());
-          return new RenderNode(new StructuredDataPageHead(data), VIEW_HOOK_HEAD);
+      StructuredDataProvider structuredDataProvider = new StructuredDataProvider(event.getBean(), settingsService, serializer, contentBeanToJsonLdModelMapper);
+      if (structuredDataProvider.isEnabled() && structuredDataProvider.getStructuredDataPageHead().isPresent()) {
+        return new RenderNode(structuredDataProvider.getStructuredDataPageHead().get(), VIEW_HOOK_HEAD);
       }
     }
     return null;
