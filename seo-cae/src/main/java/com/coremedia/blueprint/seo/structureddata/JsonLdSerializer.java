@@ -1,7 +1,7 @@
 package com.coremedia.blueprint.seo.structureddata;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class JsonLdSerializer implements StructuredDataSerializer {
       if (object != null) {
         result = mapper.writeValueAsString(object);
       }
-    } catch (JsonProcessingException e) {
+    } catch (JacksonException e) {
       LOG.error("unable to serialize object: {}", e.getMessage());
     }
     return result;
